@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { getBackend } from '@/lib/backend'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
+import { headers } from 'next/headers'
 import { z } from 'zod'
 
 const authSchema = z.object({
@@ -82,10 +83,12 @@ export async function logout() {
 
 export async function loginWithGoogle() {
   const supabase = createClient()
+  const originList = headers().get('origin') || process.env.NEXT_PUBLIC_APP_URL
+  
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`,
+      redirectTo: `${originList}/auth/callback`,
     },
   })
 
