@@ -8,6 +8,7 @@ import { Pet } from '@prisma/client'
 
 export async function createPet(formData: FormData) {
   const owner = await getAuthenticatedOwner()
+  if (!owner) return { error: 'Unauthorized' }
 
   const rawData = {
     name: formData.get('name'),
@@ -46,6 +47,7 @@ export async function createPet(formData: FormData) {
 
 export async function updatePet(id: string, formData: FormData) {
   const owner = await getAuthenticatedOwner()
+  if (!owner) return { error: 'Unauthorized' }
 
   const rawData = {
     name: formData.get('name'),
@@ -91,6 +93,7 @@ export async function updatePet(id: string, formData: FormData) {
 
 export async function deletePet(id: string) {
   const owner = await getAuthenticatedOwner()
+  if (!owner) return { error: 'Unauthorized' }
 
   try {
     // Ensure the pet belongs to the authenticated owner

@@ -38,7 +38,7 @@ export default function MessagesPage() {
   )
 
   return (
-    <div className="min-h-screen bg-[#fbf9f5] p-12 lg:p-24 overflow-hidden">
+    <div className="min-h-screen w-full bg-[#fbf9f5] p-6 md:pl-72 lg:p-16 lg:pl-80 overflow-y-auto">
       <div className="max-w-4xl mx-auto">
         <header className="mb-20">
           <h1 className="font-serif text-6xl lg:text-[5.5rem] font-bold text-[#022717] mb-8 tracking-tight">Messages</h1>

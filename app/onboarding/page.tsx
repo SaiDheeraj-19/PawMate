@@ -42,7 +42,19 @@ export default function OnboardingPage() {
   const mediaRecorderRef = useRef<MediaRecorder | null>(null)
   const chunksRef = useRef<BlobPart[]>([])
   
-  // Cleanup media stream
+  // Cleanup media stream and bind to video
+  useEffect(() => {
+    if (mediaStream && videoRef.current) {
+      videoRef.current.srcObject = mediaStream
+    }
+    return () => {
+      // Don't stop tracks here purely on 'step' change or we lose the stream.
+      // Wait, if we return a cleanup that calls stop(), it will turn off the camera when 'step' changes.
+      // Instead, we shouldn't stop tracks on every effect cycle.
+    }
+  }, [mediaStream, step])
+
+  // Proper unmount cleanup
   useEffect(() => {
     return () => {
       if (mediaStream) {
@@ -132,7 +144,7 @@ export default function OnboardingPage() {
     petData.append('size', 'medium')
     petData.append('intent', 'playdate')
     petData.append('is_vaccinated', 'true')
-    petData.append('description', 'Verified via Bank-Grade KYC')
+    petData.append('description', '')
 
     const { createPet } = await import('@/app/actions/pets')
     await createPet(petData)
@@ -149,7 +161,7 @@ export default function OnboardingPage() {
       <div className="w-full max-w-2xl relative z-10">
         <div className="absolute top-0 right-0 p-8 flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-white/50">
           <ShieldCheck className="h-4 w-4 text-[#835500]" />
-          Bank-Grade Security
+          Secure Verification
         </div>
 
         <div className="mb-12">
@@ -181,7 +193,6 @@ export default function OnboardingPage() {
                     <Input 
                       value={name} onChange={e => setName(e.target.value)}
                       className="bg-white/5 border-white/10 text-white h-16 rounded-xl focus:border-[#835500] focus:ring-[#835500] text-lg" 
-                      placeholder="e.g. Eleanor Vance" 
                     />
                   </div>
                   <div className="space-y-2 relative">
@@ -270,7 +281,7 @@ export default function OnboardingPage() {
                   </div>
                   <div className="space-y-2">
                     <Label className="text-[10px] uppercase tracking-widest text-white/50 font-bold">Species</Label>
-                    <Input value={petDetails.species} onChange={e => setPetDetails({...petDetails, species: e.target.value})} className="bg-white/5 border-white/10 h-14 rounded-xl text-white" placeholder="Dog/Cat" />
+                    <Input value={petDetails.species} onChange={e => setPetDetails({...petDetails, species: e.target.value})} className="bg-white/5 border-white/10 h-14 rounded-xl text-white" />
                   </div>
                   <div className="space-y-2">
                     <Label className="text-[10px] uppercase tracking-widest text-white/50 font-bold">Breed Variant</Label>

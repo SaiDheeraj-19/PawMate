@@ -8,7 +8,7 @@ export default function HelpPage() {
   const faqs = [
     {
       question: "How does the identity verification process work?",
-      answer: "We employ bank-grade KYC standards. This requires live visualization of both the Estate Member (you) and your companion. You cannot upload pre-recorded videos to ensure authentic and safe environments."
+      answer: "We employ strict visual verification standards. This requires live visualization of both the Estate Member (you) and your companion. You cannot upload pre-recorded videos to ensure authentic and safe environments."
     },
     {
       question: "What happens if a match is formed?",
@@ -25,7 +25,7 @@ export default function HelpPage() {
   ]
 
   return (
-    <div className="min-h-screen w-full bg-[#fbf9f5] p-6 lg:p-16 overflow-y-auto">
+    <div className="min-h-screen w-full bg-[#fbf9f5] p-6 md:pl-72 lg:p-16 lg:pl-80 overflow-y-auto">
       <div className="max-w-4xl mx-auto">
         <header className="mb-12">
           <div className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.3em] text-[#835500] mb-3">

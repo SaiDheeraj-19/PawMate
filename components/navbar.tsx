@@ -53,10 +53,11 @@ export function Navbar() {
   ]
 
   const isAuthPage = pathname === '/auth'
+  const isOnboardingPage = pathname === '/onboarding'
   const isPublicPage = pathname === '/'
 
-  if (isAuthPage) {
-    return null; // The auth page has its own dedicated UI layout and logo, so we hide the top nav completely.
+  if (isAuthPage || isOnboardingPage) {
+    return null; // Both login and secure onboarding manage their own layouts without sidebars
   }
 
   if (isPublicPage) {

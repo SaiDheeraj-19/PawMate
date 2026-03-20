@@ -90,9 +90,9 @@ export default function ChatPage() {
   const otherPet = isPetA ? match.pet_b : match.pet_a
 
   return (
-    <div className="flex flex-col h-screen bg-[#fbf9f5] overflow-hidden">
+    <div className="flex flex-col h-screen bg-[#fbf9f5] overflow-hidden pl-64">
       {/* Header Area */}
-      <header className="fixed top-0 inset-x-0 lg:left-64 h-24 bg-[#fbf9f5]/80 backdrop-blur-xl border-b border-black/5 z-30 px-8 flex items-center justify-between shadow-sm">
+      <header className="fixed top-0 inset-x-0 left-64 h-24 bg-[#fbf9f5]/80 backdrop-blur-xl border-b border-black/5 z-30 px-8 flex items-center justify-between shadow-sm">
         <div className="flex items-center gap-6">
           <button onClick={() => router.back()} className="p-3 rounded-full hover:bg-white transition-all text-[#022717]/40">
             <ArrowLeft className="h-5 w-5" />
@@ -171,7 +171,7 @@ export default function ChatPage() {
       </div>
 
       {/* Input Area */}
-      <footer className="fixed bottom-0 inset-x-0 lg:left-64 bg-[#fbf9f5]/80 backdrop-blur-xl border-t border-black/5 py-6 px-8 z-30">
+      <footer className="fixed bottom-0 inset-x-0 left-64 bg-[#fbf9f5]/80 backdrop-blur-xl border-t border-black/5 py-6 px-8 z-30">
         <div className="max-w-4xl mx-auto relative group">
           <form onSubmit={handleSend} className="relative">
             <Input 

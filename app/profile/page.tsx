@@ -53,7 +53,7 @@ export default function ProfilePage() {
   )
 
   return (
-    <div className="min-h-screen w-full bg-[#fbf9f5] p-6 lg:p-16 overflow-y-auto">
+    <div className="min-h-screen w-full bg-[#fbf9f5] p-6 md:pl-72 lg:p-16 lg:pl-80 overflow-y-auto">
       <div className="max-w-5xl mx-auto">
         {/* Banner area */}
         <div className="w-full h-48 rounded-[2rem] bg-[#022717] relative mb-16 overflow-hidden shadow-xl">

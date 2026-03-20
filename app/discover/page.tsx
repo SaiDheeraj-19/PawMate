@@ -90,8 +90,8 @@ export default function DiscoverPage() {
   const currentPet = pets[currentIndex]
 
   return (
-    <div className="min-h-screen bg-[#fbf9f5] p-12 lg:p-24 overflow-hidden">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-24">
+    <div className="min-h-screen w-full bg-[#fbf9f5] p-6 md:pl-72 lg:p-16 lg:pl-80 overflow-y-auto">
+      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12 lg:gap-24">
         {/* Left Info Column */}
         <header className="flex-1 text-center md:text-left">
           <div className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.3em] text-[#835500] mb-8">
