@@ -58,11 +58,17 @@ export async function signup(formData: FormData) {
   const { email, password, fullName: name } = validated.data
   const supabase = createClient()
 
+  const headersList = headers()
+  const host = headersList.get('x-forwarded-host') || headersList.get('host')
+  const protocol = headersList.get('x-forwarded-proto') || 'https'
+  const originUrl = host ? `${protocol}://${host}` : (process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000')
+
   const { error } = await supabase.auth.signUp({
     email,
     password,
     options: {
       data: { full_name: name },
+      emailRedirectTo: `${originUrl}/auth/callback`,
     },
   })
 
@@ -83,12 +89,17 @@ export async function logout() {
 
 export async function loginWithGoogle() {
   const supabase = createClient()
-  const originList = headers().get('origin') || process.env.NEXT_PUBLIC_APP_URL
+  const headersList = headers()
+  const host = headersList.get('x-forwarded-host') || headersList.get('host')
+  const protocol = headersList.get('x-forwarded-proto') || 'https'
+  
+  // Use Vercel's standard headers if available, otherwise fall back to environment variable or localhost
+  const originUrl = host ? `${protocol}://${host}` : (process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000')
   
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
     options: {
-      redirectTo: `${originList}/auth/callback`,
+      redirectTo: `${originUrl}/auth/callback`,
     },
   })
 
