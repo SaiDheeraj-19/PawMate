@@ -46,11 +46,9 @@ export default function LandingPage() {
             
             <div className="mt-20 flex items-center gap-4">
               <div className="flex -space-x-3">
-                {[1,2,3,4].map(i => (
-                  <div key={i} className="w-12 h-12 rounded-full border-2 border-white bg-[#f5f3ef] overflow-hidden">
-                    <img src={`https://i.pravatar.cc/100?u=pet${i}`} alt="Owner" className="w-full h-full object-cover" />
-                  </div>
-                ))}
+                <div className="w-10 h-10 rounded-full border-2 border-white bg-[#022717]/10 flex items-center justify-center">
+                  <PawPrint className="w-4 h-4 text-[#022717]/40" />
+                </div>
               </div>
               <div className="text-[11px] font-bold uppercase tracking-widest text-[#022717]/40">
                 <span className="text-[#835500]">2,400+</span> Successful Matches
@@ -59,51 +57,7 @@ export default function LandingPage() {
           </div>
           
           <div className="flex-1 relative hidden lg:block">
-            {/* Floating Cards Stack */}
-            <motion.div 
-              initial={{ rotate: 10, x: 50 }}
-              animate={{ rotate: 8, x: 0 }}
-              className="absolute -top-40 right-20 w-80 h-[480px] bg-white rounded-3xl p-6 ambient-shadow border border-black/5"
-            >
-              <div className="w-full h-64 rounded-2xl bg-[#f5f3ef] overflow-hidden mb-6">
-                <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?q=80&w=2043&auto=format&fit=crop" alt="Pet" className="w-full h-full object-cover" />
-              </div>
-              <h3 className="font-serif text-2xl font-bold text-[#022717] mb-1">Milo</h3>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-[#022717]/40 mb-3">Persian • 3Y</p>
-              <div className="flex gap-2">
-                <Badge className="bg-[#ffddb4] text-[#835500] text-[8px] font-bold uppercase leading-none border-none">Elite</Badge>
-              </div>
-            </motion.div>
-
-            <motion.div 
-              initial={{ rotate: -5, x: 20 }}
-              animate={{ rotate: -3, x: 0 }}
-              className="absolute -top-20 -right-10 w-80 h-[480px] bg-white rounded-3xl p-6 ambient-shadow border border-black/5 z-10"
-            >
-              <div className="w-full h-64 rounded-2xl bg-[#f5f3ef] overflow-hidden mb-6">
-                <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?q=80&w=1974&auto=format&fit=crop" alt="Pet" className="w-full h-full object-cover" />
-              </div>
-              <h3 className="font-serif text-2xl font-bold text-[#022717] mb-1">Cooper</h3>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-[#022717]/40 mb-3">Golden Retriever • 2Y</p>
-              <div className="flex gap-2">
-                <Badge className="bg-[#ffddb4] text-[#835500] text-[8px] font-bold uppercase leading-none border-none">Friendly</Badge>
-              </div>
-            </motion.div>
-
-            <motion.div 
-              initial={{ rotate: -15, y: 50 }}
-              animate={{ rotate: -12, y: 0 }}
-              className="relative w-80 h-[480px] bg-white rounded-3xl p-6 ambient-shadow border border-black/5 z-20"
-            >
-              <div className="w-full h-64 rounded-2xl bg-[#f5f3ef] overflow-hidden mb-6">
-                <img src="https://images.unsplash.com/photo-1517423440428-a5a00ad493e8?q=80&w=1949&auto=format&fit=crop" alt="Pet" className="w-full h-full object-cover" />
-              </div>
-              <h3 className="font-serif text-2xl font-bold text-[#022717] mb-1">Luna</h3>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-[#022717]/40 mb-3">Beagle • 1Y</p>
-              <div className="flex gap-2">
-                <Badge className="bg-[#ffddb4] text-[#835500] text-[8px] font-bold uppercase leading-none border-none">Playful</Badge>
-              </div>
-            </motion.div>
+            {/* Removed placeholder floating cards stack */}
           </div>
         </div>
       </section>
