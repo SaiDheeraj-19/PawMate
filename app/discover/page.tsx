@@ -1,36 +1,21 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Card, CardContent } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { PawPrint, X, Heart, Info, MapPin, SlidersHorizontal, ArrowLeft, ArrowRight, ShieldCheck } from 'lucide-react'
+import { Card } from '@/components/ui/card'
+import { Heart, PawPrint, X, Filter, Navigation, Home, Search, MessageSquare, User } from 'lucide-react'
 import { getPetsToDiscover, swipe } from '@/app/actions/discovery'
 import { getProfile } from '@/app/actions/profile'
 import { toast } from 'sonner'
-import Link from 'next/link'
 
 export default function DiscoverPage() {
   const [myPet, setMyPet] = useState<any>(null)
-  const [allMyPets, setAllMyPets] = useState<any[]>([])
   const [pets, setPets] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [swipeDir, setSwipeDir] = useState<'like' | 'pass'>('like')
-  const [filters] = useState({
-    species: 'all',
-    intent: 'all',
-    radius: 50,
-    minAge: 0,
-    maxAge: 240,
-  })
 
   useEffect(() => {
     const init = async () => {
       const profile = await getProfile()
       if (profile?.pets && profile.pets.length > 0) {
-        setAllMyPets(profile.pets)
         setMyPet(profile.pets[0])
       }
       setLoading(false)
@@ -46,172 +31,163 @@ export default function DiscoverPage() {
 
   const fetchPets = async () => {
     setLoading(true)
-    const data = await getPetsToDiscover(myPet.id, filters)
+    const data = await getPetsToDiscover(myPet.id, { species: 'all', intent: 'all', minAge: 0, maxAge: 240 })
     setPets(data)
-    setCurrentIndex(0)
     setLoading(false)
   }
 
-  const handleSwipe = async (direction: 'like' | 'pass') => {
-    if (currentIndex >= pets.length) return
-    setSwipeDir(direction)
-    const swipedPet = pets[currentIndex]
-    const result = await swipe(myPet.id, swipedPet.id, direction)
-
+  const handleSwipe = async (targetPet: any, direction: 'like' | 'pass') => {
+    setPets(prev => prev.filter(p => p.id !== targetPet.id))
+    const result = await swipe(myPet.id, targetPet.id, direction)
     if (result.matchId) {
       toast.success(`It's a Match! 🎉`, {
-        description: `You and ${swipedPet.name} liked each other.`,
-        action: { label: "Chat Now", onClick: () => window.location.href = `/chat/${result.matchId}` }
+        description: `You and ${targetPet.name} liked each other.`,
       })
     }
-    setCurrentIndex(prev => prev + 1)
   }
 
   if (loading && pets.length === 0) return (
-    <div className="flex items-center justify-center h-[80vh] bg-[#fbf9f5]">
-      <div className="flex flex-col items-center gap-4">
-        <div className="w-12 h-12 rounded-full border-2 border-[#022717]/10 border-t-[#022717] animate-spin" />
-        <p className="text-[10px] uppercase font-bold tracking-[0.3em] text-[#022717]/40">Browsing the estate...</p>
-      </div>
+    <div className="min-h-screen bg-[#FAF8F4] flex flex-col items-center justify-center">
+      <PawPrint className="w-12 h-12 text-[#1A3D2B] animate-bounce" />
     </div>
   )
-
-  if (!myPet) return (
-    <div className="flex-grow flex items-center justify-center h-[80vh] bg-[#fbf9f5]">
-      <div className="p-16 text-center max-w-lg">
-        <div className="w-20 h-20 rounded-full bg-[#f5f3ef] flex items-center justify-center mx-auto mb-10 shadow-sm border border-black/5">
-          <PawPrint className="h-8 w-8 text-[#022717]/50" />
-        </div>
-        <h2 className="font-serif text-4xl font-bold text-[#022717] mb-8">No Pet Estate Found</h2>
-        <p className="text-lg text-[#022717]/50 mb-12 font-sans">You need to register your companion profile first to browse the network.</p>
-        <Link 
-          href="/pets/new" 
-          className="px-10 py-5 rounded-md bg-[#022717] text-white text-[11px] font-bold uppercase tracking-[0.2em] shadow-xl hover:bg-[#1a3d2b] transition-all"
-        >
-          Register Companion
-        </Link>
-      </div>
-    </div>
-  )
-
-  const currentPet = pets[currentIndex]
 
   return (
-    <div className="min-h-screen bg-[#fbf9f5] p-12 lg:p-24 overflow-hidden">
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-24">
-        {/* Left Info Column */}
-        <header className="flex-1 text-center md:text-left">
-          <div className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.3em] text-[#835500] mb-8">
-            Sophisticated Discovery
+    <div className="min-h-screen bg-[#FAF8F4] pr-0 xl:pr-[380px] p-8 lg:p-12 font-sans relative">
+      
+      {/* Header and Filter Buttons */}
+      <div className="max-w-6xl mx-auto mb-10">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8">
+          <h1 className="font-serif text-3xl lg:text-4xl text-[#1A3D2B]">
+            Pet Matchmaking PawMate.
+          </h1>
+          <div className="flex gap-4">
+            <button className="px-6 py-2 rounded-full bg-white text-[#1A3D2B] text-sm font-bold shadow-sm whitespace-nowrap">
+              Dogs
+            </button>
+            <button className="px-6 py-2 rounded-full bg-[#1A3D2B] text-white text-sm font-bold shadow-md whitespace-nowrap">
+              Cats
+            </button>
+            <button className="px-6 py-2 rounded-full bg-white text-[#1A3D2B] text-sm font-bold shadow-sm whitespace-nowrap flex items-center gap-2">
+              <Filter className="w-4 h-4" /> Filter
+            </button>
           </div>
-          <h1 className="font-serif text-6xl lg:text-[5.5rem] font-bold text-[#022717] mb-12 tracking-tight">Expand the Pack</h1>
-          <p className="text-xl text-[#022717]/50 max-w-sm mb-16 leading-relaxed font-sans">
-            Browsing as <span className="text-[#022717] font-bold">{myPet.name}</span>. We&apos;ve curated the following elite profiles based on your pedigree and location.
-          </p>
-          
-          <div className="flex flex-col gap-4 items-center md:items-start">
-            <select 
-              className="bg-[#f5f3ef] border border-black/5 rounded-md px-4 py-2 text-[11px] font-bold uppercase tracking-widest text-[#022717]/60 outline-none w-64"
-              value={myPet.id}
-              onChange={(e) => setMyPet(allMyPets.find(p => p.id === e.target.value))}
-            >
-              {allMyPets.map(p => <option key={p.id} value={p.id}>{p.name}</option>)}
-            </select>
-          </div>
-        </header>
+        </div>
 
-        {/* Swipe Area Right Column */}
-        <div className="flex-1 relative flex flex-col items-center gap-12">
-          <div className="relative w-full max-w-md h-[480px]">
-            <AnimatePresence>
-              {currentIndex < pets.length ? (
-                <motion.div
-                  key={currentPet.id}
-                  initial={{ opacity: 0, scale: 0.95, y: 10 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ x: swipeDir === 'like' ? 600 : -600, opacity: 0, rotate: swipeDir === 'like' ? 25 : -25 }}
-                  transition={{ type: 'spring', damping: 25, stiffness: 120 }}
-                  className="absolute inset-0 z-10"
-                >
-                  <Card className="w-full h-full border-none bg-white rounded-[2rem] p-6 ambient-shadow flex flex-col items-center justify-between">
-                    <div className="w-full aspect-[4/5] rounded-2xl bg-[#f5f3ef] overflow-hidden mb-8 relative">
-                      {currentPet.photos?.[0] ? (
-                        <img src={currentPet.photos[0]} alt={currentPet.name} className="w-full h-full object-cover" />
-                      ) : (
-                        <div className="w-full h-full bg-[#fbf9f5] flex items-center justify-center">
-                          <PawPrint size={64} className="text-[#022717]/5" />
-                        </div>
-                      )}
-                      
-                      <div className="absolute top-4 right-4 flex gap-2">
-                        {currentPet.is_vaccinated && (
-                          <div className="w-8 h-8 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center shadow-lg border border-white/20">
-                            <ShieldCheck className="h-4 w-4 text-green-600" />
-                          </div>
-                        )}
-                      </div>
+        {/* Pet Grid - 2 or 3 columns */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {pets.map((pet, idx) => (
+            <Card key={pet.id} className={`overflow-hidden rounded-[2rem] border-none shadow-xl ${idx % 3 === 0 ? 'bg-[#F5A623]' : idx % 3 === 1 ? 'bg-[#1A3D2B]' : 'bg-[#FAF8F4]'} flex flex-col transition-transform duration-300 hover:-translate-y-2`}>
+              <div className="p-4 flex-1">
+                <div className="w-full aspect-square rounded-2xl bg-white overflow-hidden mb-4 relative">
+                  {pet.photos?.[0] ? (
+                    <img src={pet.photos[0]} alt={pet.name} className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                      <PawPrint className="w-12 h-12 text-gray-300" />
                     </div>
-                    
-                    <div className="w-full text-center px-4 mb-4">
-                      <h2 className="font-serif text-[2.5rem] font-bold text-[#022717] mb-2">{currentPet.name}, {Math.floor(currentPet.age_months / 12) || 1}Y</h2>
-                      <div className="flex flex-wrap items-center justify-center gap-4 mb-6">
-                        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#022717]/40">{currentPet.breed || currentPet.species}</span>
-                        <div className="w-1 h-1 rounded-full bg-[#022717]/20" />
-                        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#835500]">{currentPet.intent}</span>
-                      </div>
-                    </div>
-                  </Card>
-                </motion.div>
-              ) : (
-                <motion.div 
-                  initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                  className="absolute inset-0 bg-[#f5f3ef]/50 rounded-[2rem] border border-dashed border-[#022717]/10 flex flex-col items-center justify-center text-center p-12"
-                >
-                  <div className="w-20 h-20 rounded-full bg-white flex items-center justify-center mb-10 shadow-sm border border-black/5">
-                    <Search className="h-8 w-8 text-[#022717]/10" />
+                  )}
+                  {/* Decorative badge in corner */}
+                  <div className="absolute top-4 left-4 w-8 h-8 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white">
+                    <PawPrint className="w-4 h-4" />
                   </div>
-                  <h3 className="font-serif text-3xl font-bold text-[#022717] mb-6">Discovery Limit</h3>
-                  <p className="text-sm text-[#022717]/40 leading-relaxed font-sans mb-10 italic">
-                    You&apos;ve reached the end of the current curated estate circle. Expand your radius to view more elite companions.
-                  </p>
-                  <button 
-                    onClick={fetchPets}
-                    className="px-8 py-4 rounded-md border border-[#022717]/10 text-[10px] font-bold uppercase tracking-widest text-[#022717] hover:bg-white transition-all shadow-sm"
-                  >
-                    Refresh Circle
+                </div>
+                
+                <h3 className={`font-sans text-xl font-bold mb-1 ${idx % 3 === 1 ? 'text-white' : 'text-[#1A3D2B]'}`}>
+                  {pet.name}, {Math.floor(pet.age_months / 12) || 1}
+                </h3>
+                <p className={`text-sm mb-4 font-sans ${idx % 3 === 1 ? 'text-white/70' : 'text-[#1A3D2B]/70'}`}>
+                  {pet.breed || pet.species} • {pet.intent}
+                </p>
+              </div>
+
+              {/* Card Footer Actions */}
+              <div className={`p-4 flex items-center justify-between rounded-b-[2rem] ${idx % 3 === 1 ? 'bg-white/10' : 'bg-white/50 border-t border-black/5'}`}>
+                <div className="flex items-center gap-2">
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${idx % 3 === 1 ? 'bg-white/20 text-white' : 'bg-[#1A3D2B]/10 text-[#1A3D2B]'}`}>
+                     <Navigation className="w-4 h-4" />
+                  </div>
+                  <span className={`text-xs font-bold font-sans ${idx % 3 === 1 ? 'text-white' : 'text-[#1A3D2B]'}`}>2.5km away</span>
+                </div>
+                
+                <div className="flex gap-2">
+                  <button onClick={() => handleSwipe(pet, 'pass')} className={`w-8 h-8 rounded-full flex items-center justify-center hover:scale-110 active:scale-95 transition-transform ${idx % 3 === 1 ? 'bg-white/20 text-white hover:bg-white/40' : 'bg-white text-gray-500 shadow-sm'}`}>
+                    <X className="w-4 h-4" />
                   </button>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            {/* Background pile indicator */}
-            <div className="absolute -bottom-2 inset-x-4 h-10 bg-white/50 rounded-[2rem] border border-black/5 -z-10" />
-            <div className="absolute -bottom-4 inset-x-8 h-10 bg-white/30 rounded-[2rem] border border-black/5 -z-20" />
-          </div>
-
-          {/* Swipe Buttons */}
-          {currentIndex < pets.length && (
-            <div className="flex items-center gap-12 z-20">
-              <button 
-                onClick={() => handleSwipe('pass')}
-                className="w-20 h-20 rounded-full bg-white text-[#022717]/30 border border-black/5 flex items-center justify-center ambient-shadow hover:text-red-500 hover:scale-110 active:scale-95 transition-all duration-300"
-              >
-                <X size={40} />
-              </button>
-              <button 
-                onClick={() => handleSwipe('like')}
-                className="w-24 h-24 rounded-full bg-[#022717] text-[#835500] border-4 border-[#835500]/20 flex items-center justify-center shadow-xl hover:scale-110 active:scale-95 transition-all duration-300 relative group"
-              >
-                <div className="absolute inset-0 rounded-full animate-ping bg-[#835500]/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                <Heart size={44} fill="#835500" />
-              </button>
-              <button className="w-20 h-20 rounded-full bg-white text-[#022717]/30 border border-black/5 flex items-center justify-center ambient-shadow hover:text-[#022717] hover:scale-110 active:scale-95 transition-all duration-300">
-                <SlidersHorizontal size={32} />
-              </button>
+                  <button onClick={() => handleSwipe(pet, 'like')} className="w-8 h-8 rounded-full bg-[#1A3D2B] text-white flex items-center justify-center hover:scale-110 active:scale-95 transition-transform shadow-md">
+                    <Heart className="w-4 h-4 fill-current" />
+                  </button>
+                </div>
+              </div>
+            </Card>
+          ))}
+          
+          {pets.length === 0 && !loading && (
+            <div className="col-span-full h-80 flex items-center justify-center">
+               <p className="text-[#1A3D2B]/50 font-serif text-xl">No more pets found in your area.</p>
             </div>
           )}
         </div>
       </div>
+
+      {/* Floating Mobile Preview Right Column */}
+      <div className="hidden xl:block fixed right-10 top-1/2 -translate-y-1/2 w-[340px] h-[700px] bg-white rounded-[3rem] border-8 border-gray-100 shadow-2xl overflow-hidden z-20">
+         {/* Mobile Header */}
+         <div className="px-6 py-5 flex items-center justify-between border-b border-gray-100">
+           <div className="flex items-center gap-2 font-serif font-bold text-xl text-[#1A3D2B]">
+              <PawPrint className="w-5 h-5 fill-current" />
+              PawMate
+           </div>
+           <div className="flex gap-1.5">
+              <div className="w-1.5 h-1.5 rounded-full bg-[#1A3D2B]"></div>
+              <div className="w-1.5 h-1.5 rounded-full bg-[#1A3D2B]"></div>
+              <div className="w-1.5 h-1.5 rounded-full bg-[#1A3D2B]"></div>
+           </div>
+         </div>
+
+         {/* Mobile Content (Mockup Text) */}
+         <div className="p-6">
+           <h2 className="font-serif text-[28px] text-[#1A3D2B] leading-tight mb-4">
+             DM Sans
+           </h2>
+           <p className="font-sans text-[10px] text-gray-500 mb-6 leading-relaxed">
+             Perfect for mobile tracking and connection filtering to combine community habitats with advanced selection.
+           </p>
+
+           <div className="p-4 rounded-xl bg-[#1A3D2B] text-white flex justify-between items-center shadow-lg mb-6">
+              <div className="flex items-center gap-2 font-serif text-lg">
+                 <PawPrint className="w-4 h-4 fill-white" />
+                 PlayFair
+              </div>
+              <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center">+</div>
+           </div>
+
+           {/* Mobile Grid */}
+           <div className="grid grid-cols-2 gap-3 pb-24 h-[400px] overflow-hidden">
+             {pets.slice(0, 4).map((pet, i) => (
+                <div key={i} className={`rounded-xl p-2 flex flex-col ${i % 2 === 0 ? 'bg-[#F5A623]' : 'bg-[#1A3D2B]'}`}>
+                   <div className="w-full h-20 bg-white rounded-lg mb-2 overflow-hidden">
+                      {pet.photos?.[0] ? <img src={pet.photos[0]} className="w-full h-full object-cover" /> : null}
+                   </div>
+                   <span className="font-bold text-[9px] text-white mb-0.5">{pet.name}</span>
+                   <span className="text-[7px] text-white/70">{pet.breed}</span>
+                </div>
+             ))}
+           </div>
+         </div>
+
+         {/* Mobile Bottom Nav */}
+         <div className="absolute bottom-0 w-full h-[72px] bg-[#1A3D2B] rounded-t-3xl flex items-center justify-between px-6 z-10 shadow-[0_-10px_40px_rgba(0,0,0,0.1)]">
+            <div className="p-2 w-10 flex justify-center text-white/50"><Home className="w-5 h-5" /></div>
+            <div className="p-2 w-10 flex justify-center text-[#F5A623]"><Search className="w-5 h-5" /></div>
+            <div className="p-2 w-12 h-12 -mt-6 bg-[#F5A623] rounded-full flex items-center justify-center shadow-lg shadow-[#F5A623]/30 text-white">
+               <PawPrint className="w-5 h-5 fill-current" />
+            </div>
+            <div className="p-2 w-10 flex justify-center text-white/50"><MessageSquare className="w-5 h-5" /></div>
+            <div className="p-2 w-10 flex justify-center text-white/50"><User className="w-5 h-5" /></div>
+         </div>
+      </div>
+
     </div>
   )
 }
