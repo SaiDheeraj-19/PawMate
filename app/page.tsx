@@ -57,7 +57,50 @@ export default function LandingPage() {
           </div>
           
           <div className="flex-1 relative hidden lg:block">
-            {/* Removed placeholder floating cards stack */}
+            <motion.div 
+              initial={{ rotate: 10, x: 50 }}
+              animate={{ rotate: 8, x: 0 }}
+              className="absolute -top-40 right-20 w-80 h-[480px] bg-white rounded-3xl p-6 ambient-shadow border border-black/5"
+            >
+              <div className="w-full h-64 rounded-2xl bg-[#f5f3ef] overflow-hidden mb-6">
+                <img src="/images/hero/cat.png" alt="Premium Feline Companion" className="w-full h-full object-cover" />
+              </div>
+              <h3 className="font-serif text-2xl font-bold text-[#022717] mb-1">Elite Match</h3>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-[#022717]/40 mb-3">Persian Lineage</p>
+              <div className="flex gap-2">
+                <Badge className="bg-[#ffddb4] text-[#835500] text-[8px] font-bold uppercase leading-none border-none">Verified</Badge>
+              </div>
+            </motion.div>
+
+            <motion.div 
+              initial={{ rotate: -5, x: 20 }}
+              animate={{ rotate: -3, x: 0 }}
+              className="absolute -top-20 -right-10 w-80 h-[480px] bg-white rounded-3xl p-6 ambient-shadow border border-black/5 z-10"
+            >
+              <div className="w-full h-64 rounded-2xl bg-[#f5f3ef] overflow-hidden mb-6">
+                <img src="/images/hero/dog1.png" alt="Loyal Golden" className="w-full h-full object-cover" />
+              </div>
+              <h3 className="font-serif text-2xl font-bold text-[#022717] mb-1">Playdate Ready</h3>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-[#022717]/40 mb-3">Golden Retriever</p>
+              <div className="flex gap-2">
+                <Badge className="bg-[#ffddb4] text-[#835500] text-[8px] font-bold uppercase leading-none border-none">Friendly</Badge>
+              </div>
+            </motion.div>
+
+            <motion.div 
+              initial={{ rotate: -15, y: 50 }}
+              animate={{ rotate: -12, y: 0 }}
+              className="relative w-80 h-[480px] bg-white rounded-3xl p-6 ambient-shadow border border-black/5 z-20"
+            >
+              <div className="w-full h-64 rounded-2xl bg-[#f5f3ef] overflow-hidden mb-6">
+                <img src="/images/hero/dog2.png" alt="Playful Beagle" className="w-full h-full object-cover" />
+              </div>
+              <h3 className="font-serif text-2xl font-bold text-[#022717] mb-1">Companion</h3>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-[#022717]/40 mb-3">Beagle</p>
+              <div className="flex gap-2">
+                <Badge className="bg-[#ffddb4] text-[#835500] text-[8px] font-bold uppercase leading-none border-none">Playful</Badge>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
