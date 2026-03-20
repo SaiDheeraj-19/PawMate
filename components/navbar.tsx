@@ -52,14 +52,19 @@ export function Navbar() {
     { name: 'Help', href: '/help', icon: HelpCircle },
   ]
 
-  const isPublicPage = pathname === '/' || pathname === '/auth'
+  const isAuthPage = pathname === '/auth'
+  const isPublicPage = pathname === '/'
+
+  if (isAuthPage) {
+    return null; // The auth page has its own dedicated UI layout and logo, so we hide the top nav completely.
+  }
 
   if (isPublicPage) {
     return (
-      <nav className={`fixed top-0 z-50 w-full transition-all duration-300 ${isScrolled ? 'h-16 bg-[#fbf9f5]/80 backdrop-blur-xl border-b border-black/5 shadow-sm' : 'h-24 bg-transparent'}`}>
-        <div className="container h-full flex items-center justify-between">
-          <Link href="/" className="font-serif text-2xl font-bold tracking-tight text-[#022717] flex items-center gap-2">
-            <PawPrint className="h-6 w-6 fill-current" />
+      <nav className="fixed top-8 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-5xl h-16 bg-white/80 backdrop-blur-2xl border border-black/5 shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-full px-6 flex items-center justify-between transition-all duration-300">
+        <div className="flex items-center justify-between w-full">
+          <Link href="/" className="font-serif text-xl font-bold tracking-tight text-[#022717] flex items-center gap-2">
+            <PawPrint className="h-5 w-5 fill-current" />
             PawMate
           </Link>
           
