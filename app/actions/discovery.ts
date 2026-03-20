@@ -36,10 +36,10 @@ export async function getPetsToDiscover(
   }
 
   if (filters.species && filters.species !== 'all') {
-    where.species = filters.species as Prisma.StringFilter
+    where.species = filters.species as any
   }
   if (filters.intent && filters.intent !== 'all') {
-    where.OR = [{ intent: filters.intent as Prisma.StringFilter }, { intent: 'both' }]
+    where.OR = [{ intent: filters.intent as any }, { intent: 'both' }]
   }
 
   // If owner has location, sort by distance using PostGIS
