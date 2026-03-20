@@ -1,94 +1,143 @@
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+@layer base {
+  :root {
+    /* The Digital Estate Palette */
+    --background: 40 25% 97%; /* #fbf9f5 */
+    --foreground: 160 85% 8%; /* Dark green for text */
+    
+    --card: 0 0% 100%; /* #ffffff */
+    --card-foreground: 160 85% 8%;
+    
+    --popover: 0 0% 100%;
+    --popover-foreground: 160 85% 8%;
+    
+    --primary: 154 90% 8%; /* #022717 Forest Green */
+    --primary-foreground: 40 25% 97%;
+    
+    --secondary: 39 100% 26%; /* #835500 Amber */
+    --secondary-foreground: 40 25% 97%;
+    
+    --muted: 40 18% 94%; /* #f5f3ef */
+    --muted-foreground: 160 20% 40%;
+    
+    --accent: 39 100% 85%; /* #ffddb4 Light Amber */
+    --accent-foreground: 39 100% 20%;
+    
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    
+    --border: 120 4% 76%; /* #c1c8c1 at low opacity */
+    --input: 120 4% 76%;
+    --ring: 154 90% 8%;
+    
+    --radius: 0.75rem; /* 12px as per buttons */
+
+    /* Custom Tonal Layers */
+    --surface: 40 25% 97%; /* #fbf9f5 */
+    --surface-container-low: 40 18% 94%; /* #f5f3ef */
+    --surface-container-lowest: 0 0% 100%; /* #ffffff */
+    --surface-container-high: 40 15% 90%;
+  }
+
+  .dark {
+    /* Similar but darker tones if needed, but the design spec is light-mode focused */
+    --background: 160 85% 5%;
+    --foreground: 40 25% 95%;
+    --card: 160 85% 8%;
+    --card-foreground: 40 25% 95%;
+    --primary: 40 25% 90%;
+    --primary-foreground: 160 85% 5%;
+    --secondary: 39 100% 50%;
+    --secondary-foreground: 160 85% 5%;
+    --muted: 160 40% 12%;
+    --muted-foreground: 160 20% 60%;
+    --border: 160 40% 20%;
+    --input: 160 40% 20%;
+  }
+
+  * {
+    /* The "No-Line" Rule fallback */
+    border-color: hsla(var(--border), 0.15);
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: -0.01em;
+  }
+
+  h1, h2, h3, .display-font {
+    font-family: 'Noto Serif', serif;
+    letter-spacing: -0.02em;
   }
 }
 
-@layer base {
-  .theme {
-    --font-heading: var(--font-sans);
-    --font-sans: var(--font-sans);
+@layer utilities {
+  .display-lg {
+    font-size: 3.5rem;
+    line-height: 1.1;
+    font-weight: 700;
   }
-  :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --radius: 0.625rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0);
+
+  .body-lg {
+    font-size: 1rem;
+    line-height: 1.6;
+    font-weight: 400;
   }
-  .dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.922 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
+
+  .label-mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
-  * {
-    @apply border-border outline-ring/50;
+
+  /* "The Floating Badge" style */
+  .floating-badge {
+    @apply bg-[#ffddb4] text-[#835500] px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-sm;
+    transform: rotate(-2deg);
   }
-  body {
-    @apply bg-background text-foreground;
+
+  /* Signature Gradient CTA */
+  .btn-primary-gradient {
+    background: linear-gradient(135deg, #022717 0%, #1a3d2b 100%);
+    @apply text-white shadow-lg transition-transform active:scale-[0.96] duration-300;
   }
-  html {
-    @apply font-sans;
+
+  /* Ambient Shadows */
+  .ambient-shadow {
+    box-shadow: 0 24px 48px rgba(27, 28, 26, 0.04);
+  }
+
+  /* Glass Effects */
+  .glass-estate {
+    background: hsla(var(--background), 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .soft-coral-mask {
+    background: rgba(255, 127, 80, 0.05); /* 5% soft coral */
+  }
+
+  .intentional-asymmetry {
+    transform: translateX(20px);
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .gradient-text-estate {
+    background: linear-gradient(135deg, #022717 0%, #835500 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 }

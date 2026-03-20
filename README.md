@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PawMate - Pet Matchmaking Platform
 
-## Getting Started
+Find playdates and breeding partners for your pets with ease.
 
-First, run the development server:
+## Tech Stack
+- **Framework**: Next.js 14 (App Router)
+- **Database**: Supabase (PostgreSQL + PostGIS)
+- **ORM**: Prisma
+- **Auth**: Supabase Auth
+- **Styling**: Tailwind CSS + shadcn/ui
+- **Realtime**: Supabase Realtime
+- **Email**: Resend
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Setup Instructions
+
+### 1. Supabase Setup
+1. Create a new project on [Supabase](https://supabase.com).
+2. Go to the **SQL Editor** and run the contents of `supabase/migrations/20240320000000_init.sql`.
+3. Enable **Google OAuth** in the Auth settings (optional, but recommended).
+4. Create a storage bucket called `pets` and set its policy to public.
+
+### 2. Environment Variables
+Create a `.env` file in the root directory:
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+DATABASE_URL="postgresql://postgres:password@db.xxxx.supabase.co:5432/postgres?schema=public"
+DIRECT_URL="postgresql://postgres:password@db.xxxx.supabase.co:5432/postgres?schema=public"
+RESEND_API_KEY=your_resend_api_key
+NEXT_PUBLIC_APP_URL=http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 3. PocketBase Setup (Alternative Backend)
+1. Download and run [PocketBase](https://pocketbase.io).
+2. Go to the **Settings > Import collections** and paste the contents of `pocketbase/schema.json`.
+3. Set `NEXT_PUBLIC_BACKEND=pocketbase` in your `.env` to switch backends.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 4. Installation
+```bash
+npm install
+npx prisma generate
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 5. Running the App
+```bash
+npm run dev
+```
 
-## Learn More
+### 6. Seeding Data (Optional)
+```bash
+# Supabase
+npx ts-node prisma/seed.ts
+# PocketBase: Manual upload via Admin UI or custom script
+```
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Features
+- **Dual Backend**: Support for both Supabase and PocketBase.
+- **Auth**: Social and email login.
+- **Profiles**: Management for owners and multiple pets.
+- **Discovery**: Swipe UI with distance-based sorting (PostGIS or Math).
+- **Chat**: Real-time messaging.
+- **Notifications**: In-app and email alerts.

@@ -1,13 +1,144 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
-  provider = "prisma-client"
-  output   = "../app/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Species {
+  dog
+  cat
+  rabbit
+  bird
+  other
+}
+
+enum Gender {
+  male
+  female
+}
+
+enum Size {
+  small
+  medium
+  large
+}
+
+enum Intent {
+  playdate
+  breeding
+  both
+}
+
+enum Direction {
+  like
+  pass
+}
+
+enum NotificationType {
+  new_match
+  new_message
+}
+
+model Owner {
+  id           String   @id @default(uuid())
+  auth_user_id String   @unique // Supabase auth.users UUID
+  name         String
+  bio          String?
+  avatar_url   String?
+  city         String?
+  lat          Float?
+  lng          Float?
+  created_at   DateTime @default(now())
+  
+  pets          Pet[]
+  messages      Message[]
+  notifications Notification[]
+
+  @@map("owners")
+}
+
+model Pet {
+  id               String   @id @default(uuid())
+  owner_id         String
+  name             String
+  species          Species
+  breed            String?
+  age_months       Int
+  gender           Gender
+  size             Size
+  temperament_tags String[]
+  description      String?
+  intent           Intent
+  is_vaccinated    Boolean  @default(false)
+  photos           String[]
+  created_at       DateTime @default(now())
+
+  owner Owner @relation(fields: [owner_id], references: [id], onDelete: Cascade)
+
+  swipes_made     Swipe[] @relation("SwiperPet")
+  swipes_received Swipe[] @relation("SwipedPet")
+  matches_a       Match[] @relation("PetA")
+  matches_b       Match[] @relation("PetB")
+
+  @@map("pets")
+}
+
+model Swipe {
+  id             String    @id @default(uuid())
+  swiper_pet_id  String
+  swiped_pet_id  String
+  direction      Direction
+  created_at     DateTime  @default(now())
+
+  swiper_pet Pet @relation("SwiperPet", fields: [swiper_pet_id], references: [id], onDelete: Cascade)
+  swiped_pet Pet @relation("SwipedPet", fields: [swiped_pet_id], references: [id], onDelete: Cascade)
+
+  @@unique([swiper_pet_id, swiped_pet_id])
+  @@map("swipes")
+}
+
+model Match {
+  id         String   @id @default(uuid())
+  pet_a_id   String
+  pet_b_id   String
+  created_at DateTime @default(now())
+
+  pet_a Pet @relation("PetA", fields: [pet_a_id], references: [id], onDelete: Cascade)
+  pet_b Pet @relation("PetB", fields: [pet_b_id], references: [id], onDelete: Cascade)
+
+  messages Message[]
+
+  @@unique([pet_a_id, pet_b_id])
+  @@map("matches")
+}
+
+model Message {
+  id              String    @id @default(uuid())
+  match_id        String
+  sender_owner_id String
+  content         String
+  created_at      DateTime  @default(now())
+  read_at         DateTime?
+
+  match        Match @relation(fields: [match_id], references: [id], onDelete: Cascade)
+  sender_owner Owner @relation(fields: [sender_owner_id], references: [id], onDelete: Cascade)
+
+  @@map("messages")
+}
+
+model Notification {
+  id         String           @id @default(uuid())
+  owner_id   String
+  type       NotificationType
+  payload    Json
+  read       Boolean          @default(false)
+  created_at DateTime         @default(now())
+
+  owner Owner @relation(fields: [owner_id], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
 }
