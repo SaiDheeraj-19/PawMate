@@ -1,0 +1,8 @@
+echo "[Husky] Checking for committed secrets or .env files..."
+if git diff --cached --name-only | grep -E '(\.env|secret|key|token)' | grep -v '.env.example'; then
+  echo "🚨 Security Error: Attempting to commit a potential secret or .env file! Rejected."
+  exit 1
+fi
+
+echo "[Husky] Running lint-staged (Checking for console logs and formatting)..."
+npx lint-staged

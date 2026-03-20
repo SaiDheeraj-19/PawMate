@@ -1,0 +1,5 @@
+{
+  "*.{js,jsx,ts,tsx}": [
+    "bash -c 'if grep -lE \"console\\.log\" \"$@\"; then echo \"🚨 Security Error: console.log detected in production staged files! Rejected.\"; exit 1; fi' _"
+  ]
+}

@@ -1,16 +1,16 @@
 import type { Metadata } from "next";
-import { DM_Sans, Playfair_Display } from "next/font/google";
+import { Plus_Jakarta_Sans, Noto_Serif } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import { Toaster } from "@/components/ui/sonner";
 
-const dmSans = DM_Sans({ 
+const plusJakarta = Plus_Jakarta_Sans({ 
   subsets: ["latin"], 
   variable: "--font-sans",
   display: 'swap',
 });
 
-const playfairDisplay = Playfair_Display({
+const notoSerif = Noto_Serif({
   subsets: ["latin"],
   variable: "--font-serif",
   display: 'swap',
@@ -30,7 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${dmSans.variable} ${playfairDisplay.variable} font-sans antialiased min-h-screen bg-[#FAF8F4]`}>
+      <body className={`${plusJakarta.variable} ${notoSerif.variable} font-sans antialiased min-h-screen bg-background`}>
         <div className="flex flex-col min-h-screen">
           <Navbar />
           <main className="flex-grow">{children}</main>

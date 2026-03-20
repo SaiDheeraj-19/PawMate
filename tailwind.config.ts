@@ -50,9 +50,12 @@ const config: Config = {
           foreground: "hsl(var(--card-foreground))",
         },
         estate: {
-          green: "#1A3D2B",
-          amber: "#F5A623",
-          cream: "#FAF8F4",
+          green: "#022717",
+          amber: "#835500",
+          cream: "#fbf9f5",
+          sand: "#f5f3ef",
+          gold: "#B17A1F",
+          "gold-light": "#ffddb4"
         }
       },
       borderRadius: {
@@ -61,8 +64,9 @@ const config: Config = {
         sm: "8px",
       },
       fontFamily: {
-        serif: ["var(--font-serif)", "serif"],
-        sans: ["var(--font-sans)", "sans-serif"],
+        serif: ["'Noto Serif'", "serif"],
+        sans: ["'Plus Jakarta Sans'", "sans-serif"],
+        mono: ["'JetBrains Mono'", "monospace"],
       },
       spacing: {
         "16": "5.5rem",

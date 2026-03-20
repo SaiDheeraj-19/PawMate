@@ -1,68 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 42 25% 97%; /* #FAF8F4 */
-    --foreground: 149 40% 17%; /* #1A3D2B */
+    /* The Digital Estate Palette */
+    --background: 40 25% 97%; /* #fbf9f5 */
+    --foreground: 160 85% 8%; /* Dark green for text */
     
-    --card: 0 0% 100%;
-    --card-foreground: 149 40% 17%;
+    --card: 0 0% 100%; /* #ffffff */
+    --card-foreground: 160 85% 8%;
     
     --popover: 0 0% 100%;
-    --popover-foreground: 149 40% 17%;
+    --popover-foreground: 160 85% 8%;
     
-    --primary: 149 40% 17%; /* #1A3D2B */
-    --primary-foreground: 42 25% 97%;
+    --primary: 154 90% 8%; /* #022717 Forest Green */
+    --primary-foreground: 40 25% 97%;
     
-    --secondary: 37 91% 55%; /* #F5A623 */
-    --secondary-foreground: 0 0% 100%;
+    --secondary: 39 100% 26%; /* #835500 Amber */
+    --secondary-foreground: 40 25% 97%;
     
-    --muted: 42 20% 90%;
-    --muted-foreground: 149 20% 40%;
+    --muted: 40 18% 94%; /* #f5f3ef */
+    --muted-foreground: 160 20% 40%;
     
-    --accent: 37 91% 55%; 
-    --accent-foreground: 0 0% 100%;
+    --accent: 39 100% 85%; /* #ffddb4 Light Amber */
+    --accent-foreground: 39 100% 20%;
     
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
     
-    --border: 149 20% 85%;
-    --input: 149 20% 85%;
-    --ring: 149 40% 17%;
+    --border: 120 4% 76%; /* #c1c8c1 at low opacity */
+    --input: 120 4% 76%;
+    --ring: 154 90% 8%;
     
-    --radius: 1rem; /* 16px */
+    --radius: 0.75rem; /* 12px as per buttons */
+
+    /* Custom Tonal Layers */
+    --surface: 40 25% 97%; /* #fbf9f5 */
+    --surface-container-low: 40 18% 94%; /* #f5f3ef */
+    --surface-container-lowest: 0 0% 100%; /* #ffffff */
+    --surface-container-high: 40 15% 90%;
+  }
+
+  .dark {
+    /* Similar but darker tones if needed, but the design spec is light-mode focused */
+    --background: 160 85% 5%;
+    --foreground: 40 25% 95%;
+    --card: 160 85% 8%;
+    --card-foreground: 40 25% 95%;
+    --primary: 40 25% 90%;
+    --primary-foreground: 160 85% 5%;
+    --secondary: 39 100% 50%;
+    --secondary-foreground: 160 85% 5%;
+    --muted: 160 40% 12%;
+    --muted-foreground: 160 20% 60%;
+    --border: 160 40% 20%;
+    --input: 160 40% 20%;
   }
 
   * {
-    border-color: hsla(var(--border), 0.5);
+    /* The "No-Line" Rule fallback */
+    border-color: hsla(var(--border), 0.15);
   }
 
   body {
-    @apply bg-background text-foreground font-sans;
+    @apply bg-background text-foreground;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
     letter-spacing: -0.01em;
   }
 
-  h1, h2, h3, h4, .font-serif {
-    font-family: var(--font-serif);
+  h1, h2, h3, .display-font {
+    font-family: 'Noto Serif', serif;
+    letter-spacing: -0.02em;
   }
 }
 
 @layer utilities {
-  .wave-divider {
-    position: relative;
-    overflow: hidden;
+  .display-lg {
+    font-size: 3.5rem;
+    line-height: 1.1;
+    font-weight: 700;
   }
-  
-  .wave-divider::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100px;
-    background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg"><path fill="%231A3D2B" fill-opacity="1" d="M0,256L60,240C120,224,240,192,360,192C480,192,600,224,720,229.3C840,235,960,213,1080,186.7C1200,160,1320,128,1380,112L1440,96L1440,320L1380,320C1320,320,1200,320,1080,320C960,320,840,320,720,320C600,320,480,320,360,320C240,320,120,320,60,320L0,320Z"></path></svg>') no-repeat bottom;
-    background-size: cover;
+
+  .body-lg {
+    font-size: 1rem;
+    line-height: 1.6;
+    font-weight: 400;
+  }
+
+  .label-mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* "The Floating Badge" style */
+  .floating-badge {
+    @apply bg-[#ffddb4] text-[#835500] px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-sm;
+    transform: rotate(-2deg);
+  }
+
+  /* Signature Gradient CTA */
+  .btn-primary-gradient {
+    background: linear-gradient(135deg, #022717 0%, #1a3d2b 100%);
+    @apply text-white shadow-lg transition-transform active:scale-[0.96] duration-300;
+  }
+
+  /* Ambient Shadows */
+  .ambient-shadow {
+    box-shadow: 0 24px 48px rgba(27, 28, 26, 0.04);
+  }
+
+  /* Glass Effects */
+  .glass-estate {
+    background: hsla(var(--background), 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .soft-coral-mask {
+    background: rgba(255, 127, 80, 0.05); /* 5% soft coral */
+  }
+
+  .intentional-asymmetry {
+    transform: translateX(20px);
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .gradient-text-estate {
+    background: linear-gradient(135deg, #022717 0%, #835500 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
 }
