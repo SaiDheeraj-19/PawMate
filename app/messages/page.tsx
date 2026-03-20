@@ -96,7 +96,7 @@ export default function MessagesPage() {
                                    <ShieldCheck className="h-4 w-4 text-green-600" />
                                 </div>
                                 <span className="text-[10px] font-bold uppercase tracking-[0.1em] text-[#022717]/20">
-                                   {lastMessage ? format(new Date(lastMessage.created_at), 'h:mm a') : 'Matches Nov 2024'}
+                                   {lastMessage ? format(new Date(lastMessage.created_at), 'h:mm a') : 'New Match'}
                                 </span>
                              </div>
 

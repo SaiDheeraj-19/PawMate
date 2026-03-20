@@ -82,11 +82,11 @@ export default function MatchesPage() {
                       <CardContent className="p-0 flex flex-col sm:flex-row items-center gap-10 relative z-10">
                         {/* Overlapping Circles */}
                         <div className="relative h-28 w-44 flex items-center justify-center">
-                          <div className="absolute left-0 w-28 h-28 rounded-full border-4 border-white bg-[#f5f3ef] overflow-hidden shadow-sm z-10">
-                            <img src={myPet.photos?.[0] || 'https://via.placeholder.com/150'} alt={myPet.name} className="w-full h-full object-cover" />
+                          <div className="absolute left-0 w-28 h-28 rounded-full border-4 border-white bg-[#f5f3ef] overflow-hidden shadow-sm z-10 flex items-center justify-center">
+                            {myPet.photos?.[0] ? <img src={myPet.photos[0]} alt={myPet.name} className="w-full h-full object-cover" /> : <Heart className="w-10 h-10 text-[#022717]/10" />}
                           </div>
-                          <div className="absolute right-0 w-28 h-28 rounded-full border-4 border-white bg-[#f5f3ef] overflow-hidden shadow-sm">
-                            <img src={otherPet.photos?.[0] || 'https://via.placeholder.com/150'} alt={otherPet.name} className="w-full h-full object-cover" />
+                          <div className="absolute right-0 w-28 h-28 rounded-full border-4 border-white bg-[#f5f3ef] overflow-hidden shadow-sm flex items-center justify-center">
+                            {otherPet.photos?.[0] ? <img src={otherPet.photos[0]} alt={otherPet.name} className="w-full h-full object-cover" /> : <Heart className="w-10 h-10 text-[#022717]/10" />}
                           </div>
                           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-md z-20">
                             <Heart className="h-4 w-4 text-[#835500] fill-[#835500]" />
