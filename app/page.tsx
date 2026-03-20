@@ -44,18 +44,7 @@ export default function LandingPage() {
               </Link>
             </div>
             
-            <div className="mt-20 flex items-center gap-4">
-              <div className="flex -space-x-3">
-                <div className="w-10 h-10 rounded-full border-2 border-white bg-[#022717]/10 flex items-center justify-center">
-                  <PawPrint className="w-4 h-4 text-[#022717]/40" />
-                </div>
-              </div>
-              <div className="text-[11px] font-bold uppercase tracking-widest text-[#022717]/40">
-                <span className="text-[#835500]">2,400+</span> Successful Matches
-              </div>
-            </div>
-          </div>
-          
+          </div>          
           <div className="flex-1 relative hidden lg:block">
             <motion.div 
               initial={{ rotate: 10, x: 50 }}
@@ -105,22 +94,17 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Trust Quote */}
-      <section className="py-40 bg-white border-y border-black/5 overflow-hidden">
-        <div className="container text-center max-w-4xl mx-auto px-8 relative">
-          <Quote className="h-20 w-20 text-[#022717]/5 absolute -top-10 left-1/2 -translate-x-1/2" />
-          <h2 className="font-serif text-4xl lg:text-5xl leading-tight text-[#022717] font-medium italic mb-12 px-6">
-            &quot;PawMate has redefined the standards for pet socialization. The level of detail and the quality of the community are truly unparalleled in the digital space.&quot;
+      {/* Who We Are Section */}
+      <section className="py-32 bg-white border-y border-black/5 overflow-hidden relative">
+        <div className="absolute inset-0 bg-[#022717]/[0.02]" />
+        <div className="container max-w-4xl mx-auto px-8 text-center relative z-10">
+          <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#835500] mb-8">Who We Are</p>
+          <h2 className="font-serif text-4xl lg:text-5xl leading-tight text-[#022717] font-bold mb-10 px-6">
+            We are the premier platform dedicated exclusively to the sophisticated matchmaking of elite companion pets.
           </h2>
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-16 h-16 rounded-full bg-[#f5f3ef] border border-black/5 overflow-hidden">
-              <img src="https://i.pravatar.cc/100?u=eleanor" alt="Eleanor" className="w-full h-full object-cover" />
-            </div>
-            <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#022717]">Eleanor Vance</p>
-              <p className="text-[9px] font-bold uppercase tracking-[0.1em] text-[#022717]/40">Founding Member & Owner of Ghost</p>
-            </div>
-          </div>
+          <p className="text-xl text-[#022717]/60 leading-relaxed font-sans italic max-w-3xl mx-auto">
+            PawMate exists to elevate the standard of pet connections. We believe your companion deserves a secure, curated, and premium digital estate to effortlessly discover compatible playdates, meticulously vetted lineages, and joyful lifelong bonds safely.
+          </p>
         </div>
       </section>
 
@@ -170,23 +154,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Stats Counter Section */}
-      <section className="py-40 bg-[#f5f3ef]/50 border-y border-black/5">
-        <div className="container max-w-6xl mx-auto px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-20">
-            {[
-              { val: '10k+', label: 'Verified Pet Estates' },
-              { val: '60+', label: 'Elite Certified Breeds' },
-              { val: '4.95', label: 'Community Trust Rating' }
-            ].map((stat, i) => (
-              <div key={i} className="text-center group">
-                <div className="font-serif text-7xl font-bold text-[#022717] mb-4 group-hover:text-[#835500] transition-colors duration-500">{stat.val}</div>
-                <div className="text-[11px] font-bold uppercase tracking-[0.3em] text-[#022717]/40">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+
 
       {/* Final CTA Strip */}
       <section className="py-12 bg-[#022717] text-white overflow-hidden relative">
