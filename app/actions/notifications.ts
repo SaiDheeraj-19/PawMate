@@ -6,6 +6,7 @@ import { revalidatePath } from 'next/cache'
 
 export async function getNotifications() {
   const owner = await getAuthenticatedOwner()
+  if (!owner) return []
 
   return await prisma.notification.findMany({
     where: { owner_id: owner.id },
@@ -16,6 +17,7 @@ export async function getNotifications() {
 
 export async function markNotificationAsRead(id: string) {
   const owner = await getAuthenticatedOwner()
+  if (!owner) return { error: 'Unauthorized' }
 
   try {
     await prisma.notification.update({
@@ -31,6 +33,7 @@ export async function markNotificationAsRead(id: string) {
 
 export async function getUnreadCount() {
   const owner = await getAuthenticatedOwner()
+  if (!owner) return 0
 
   return await prisma.notification.count({
     where: { owner_id: owner.id, read: false },

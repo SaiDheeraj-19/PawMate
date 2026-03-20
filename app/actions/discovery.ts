@@ -16,6 +16,7 @@ export async function getPetsToDiscover(
   }
 ) {
   const owner = await getAuthenticatedOwner()
+  if (!owner) return []
 
   // Ensure the pet belongs to the authenticated owner
   const myPet = await prisma.pet.findFirst({
@@ -69,6 +70,7 @@ export async function getPetsToDiscover(
 
 export async function swipe(swiperPetId: string, swipedPetId: string, direction: string) {
   const owner = await getAuthenticatedOwner()
+  if (!owner) return { error: 'Unauthorized' }
 
   const validated = swipeSchema.safeParse({ swiper_pet_id: swiperPetId, swiped_pet_id: swipedPetId, direction })
   if (!validated.success) {

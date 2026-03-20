@@ -21,7 +21,7 @@ export async function getAuthenticatedOwner() {
   })
   
   if (!owner) {
-    redirect('/profile')
+    return null
   }
   
   return owner

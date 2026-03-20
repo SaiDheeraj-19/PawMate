@@ -22,9 +22,13 @@ export async function updateProfile(formData: FormData) {
   }
 
   try {
-    await prisma.owner.update({
+    await prisma.owner.upsert({
       where: { auth_user_id: user.id },
-      data: validated.data,
+      update: validated.data,
+      create: {
+        ...validated.data,
+        auth_user_id: user.id,
+      },
     })
 
     revalidatePath('/profile')

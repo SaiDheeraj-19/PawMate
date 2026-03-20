@@ -6,6 +6,7 @@ import prisma from '@/lib/prisma'
 
 export async function getMatches() {
   const owner = await getAuthenticatedOwner()
+  if (!owner) return []
 
   return await prisma.match.findMany({
     where: {
@@ -25,6 +26,7 @@ export async function getMatches() {
 
 export async function getMatch(matchId: string) {
   const owner = await getAuthenticatedOwner()
+  if (!owner) return null
 
   const match = await prisma.match.findUnique({
     where: { id: matchId },
@@ -45,6 +47,7 @@ export async function getMatch(matchId: string) {
 
 export async function sendMessage(matchId: string, content: string) {
   const owner = await getAuthenticatedOwner()
+  if (!owner) return { error: 'Unauthorized' }
 
   const validated = messageSchema.safeParse({ match_id: matchId, content })
   if (!validated.success) {
@@ -88,6 +91,7 @@ export async function sendMessage(matchId: string, content: string) {
 
 export async function getMessages(matchId: string) {
   const owner = await getAuthenticatedOwner()
+  if (!owner) return []
 
   // Security check: verify membership before returning messages
   const match = await prisma.match.findUnique({
@@ -107,6 +111,7 @@ export async function getMessages(matchId: string) {
 
 export async function markAsRead(matchId: string) {
   const owner = await getAuthenticatedOwner()
+  if (!owner) return
 
   await prisma.message.updateMany({
     where: {
