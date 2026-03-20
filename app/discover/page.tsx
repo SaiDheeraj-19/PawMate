@@ -2,14 +2,11 @@
 
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Card, CardContent } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { PawPrint, X, Heart, Info, MapPin, SlidersHorizontal, ArrowLeft, ArrowRight, ShieldCheck, Search } from 'lucide-react'
+import { Card } from '@/components/ui/card'
+import { PawPrint, X, Heart, SlidersHorizontal, ShieldCheck, Search } from 'lucide-react'
 import { getPetsToDiscover, swipe } from '@/app/actions/discovery'
 import { getProfile } from '@/app/actions/profile'
 import { toast } from 'sonner'
-import Link from 'next/link'
 
 export default function DiscoverPage() {
   const [myPet, setMyPet] = useState<any>(null)
@@ -76,23 +73,19 @@ export default function DiscoverPage() {
     </div>
   )
 
-  if (!myPet) return (
-    <div className="flex-grow flex items-center justify-center h-[80vh] bg-[#fbf9f5]">
-      <div className="p-16 text-center max-w-lg">
-        <div className="w-20 h-20 rounded-full bg-[#f5f3ef] flex items-center justify-center mx-auto mb-10 shadow-sm border border-black/5">
-          <PawPrint className="h-8 w-8 text-[#022717]/50" />
+  if (!myPet) {
+    if (typeof window !== 'undefined') {
+      window.location.href = '/onboarding'
+    }
+    return (
+      <div className="flex-grow flex items-center justify-center h-[80vh] bg-[#fbf9f5]">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 rounded-full border-2 border-[#022717]/10 border-t-[#022717] animate-spin" />
+          <p className="text-[10px] uppercase font-bold tracking-[0.3em] text-[#022717]/40">Securing environment...</p>
         </div>
-        <h2 className="font-serif text-4xl font-bold text-[#022717] mb-8">No Pet Estate Found</h2>
-        <p className="text-lg text-[#022717]/50 mb-12 font-sans">You need to register your companion profile first to browse the network.</p>
-        <Link 
-          href="/pets/new" 
-          className="px-10 py-5 rounded-md bg-[#022717] text-white text-[11px] font-bold uppercase tracking-[0.2em] shadow-xl hover:bg-[#1a3d2b] transition-all"
-        >
-          Register Companion
-        </Link>
       </div>
-    </div>
-  )
+    )
+  }
 
   const currentPet = pets[currentIndex]
 
